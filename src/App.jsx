@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { Experience } from "./components/Experience";
+import { Experience } from "./components2/Experience";
 import React, { useState, useEffect } from 'react';
 
 // import { ElevenLabsClient } from "elevenlabs";
@@ -85,10 +85,10 @@ function App() {
     setText(event.target.value);
   };
   const pollyClient = new PollyClient({
-    region: 'us-east-1', 
+    region: 'us-east-1', // Replace with your region
     credentials: {
-        accessKeyId: '', 
-        secretAccessKey: '', 
+        accessKeyId: '', // Replace with your access key ID
+        secretAccessKey: '', // Replace with your secret access key
         sessionToken: ''
     }
 });
@@ -135,6 +135,15 @@ function App() {
             const obj = JSON.parse(json);
             jsonObjects.push(obj);
           });
+          const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+          const filename = `first_hope_visemes-${timestamp}.json`;
+
+          const blobb = new Blob([JSON.stringify(jsonObjects, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blobb);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = filename;
+          link.click();
 
         // console.log(jsonObjects);
         const blob = new Blob([audioBytes], { type: 'audio/mp3' });
